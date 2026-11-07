@@ -49,16 +49,16 @@ example (n : ℕ) : n = n := by
 `teacher_only in` wraps one top-level command. Lean checks the command in the
 Teacher build. The exporter removes its source lines, including a trailing
 `--` comment. Keep shared comments on separate lines outside the wrapper.
-The same wrapper works for commands such as `#print Group`. The exporter
-automatically removes `#import_bumps` and the exact imports of
-`Mathlib.Tactic.Linter.MinImports` and `Cx2026GroupsAuthoring`. Put any shared
-dependencies in ordinary imports. If both versions define named declarations,
-keep their imports separate to avoid name collisions.
+The same wrapper works for commands such as `#print Group` and `#import_bumps`.
+List imports used only by Teacher commands in `student.exclude_imports` in
+`literate-teacher.toml`. The list matches exact module names, including imports
+written with `meta`, `public`, or `all`. If both editions define named
+declarations, keep their imports separate to avoid name collisions.
 
 Add new lessons to the Teacher week overview, and import each week in
 `Cx2026GroupsTeacher.lean`. Set the module's title under its Teacher name in
 `literate-teacher.toml`. When a week is ready for students, add its name to
-`student.released_weeks` in that file. The exporter uses this list for the
+`student.released_modules` in that file. The exporter uses this list for the
 Student files, overview imports, and site configuration. It renames course
 imports to their Student counterparts and reports any dependency from a
 released lesson on an unreleased module.
@@ -86,6 +86,29 @@ The `[student]` table sets the public overview title and command visibility.
 Both sites get lesson titles from the Teacher module entries, with the Student
 module names derived automatically. Files committed to a public repository are
 accessible there even if the public website excludes them.
+
+### Reusing the exporter in another Lake project
+
+Copy `GenerateStudent.lean` and the module that defines `teacher_only in`.
+Register the `generateStudent` executable with `supportInterpreter = true`, and
+register the source, destination, and marker libraries in Lake. The exporter
+uses the usual layout where `Notes.Teacher` lives in `Notes/Teacher.lean` and
+its submodules live under `Notes/Teacher/`.
+
+```toml
+[student]
+teacher_root = "Notes.Teacher"
+student_root = "Notes.Student"
+released_modules = ["Algebra.Groups"]
+exclude_imports = ["Notes.Authoring"]
+```
+
+Run `lake exe generateStudent --config student-export.toml`. Release entries are
+relative to the Teacher root and include their submodules. Omit `released_modules`
+to export the entire Teacher tree. The root module is always exported.
+Omit `site_config` for a Lean-only export. For a Verso site, set it to the output
+TOML path and include the site metadata and Student display settings as shown in
+`literate-teacher.toml`.
 
 To render both libraries together locally:
 

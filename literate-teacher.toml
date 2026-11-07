@@ -15,10 +15,14 @@ title = "Leaning into Group Theory"
 description = "Curriculum X 2026–27: interactive course notes and Lean proofs."
 
 [student]
+teacher_root = "Cx2026GroupsTeacher"
+student_root = "Cx2026Groups"
+exclude_imports = ["Cx2026GroupsAuthoring", "Mathlib.Tactic.Linter.MinImports"]
 # Publish these Teacher week modules and their lessons in the Student edition.
-released_weeks = ["Week1", "Week2"]
+released_modules = ["Week1", "Week2"]
+site_config = "literate.toml"
 overview_title = "Course overview"
-hide_commands = ["import", "#min_imports", "set_option", "#import_bumps"]
+hide_commands = ["import", "#min_imports", "set_option"]
 
 [modules."Cx2026Groups"]
 title = "Student notes"
