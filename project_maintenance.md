@@ -72,6 +72,10 @@ lake build
 lake build Cx2026GroupsTeacher
 ```
 
+The exporter caches validated lesson edits in `.lake/build/student-export.json`.
+Changes to lesson source, module setup, or compiled imports invalidate the relevant
+entries. `--check` still compares the generated text with the Student files on every run.
+
 Commit the generated `Cx2026Groups.lean`, `Cx2026Groups/`, and `literate.toml`
 with their authoring changes. CI compares the checked-in files against a fresh
 export and builds both libraries. Generation removes stale files carrying the
