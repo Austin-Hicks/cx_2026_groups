@@ -21,6 +21,7 @@ In this file, you will learn how to use the {tactic}`rw` (rewrite) tactic to cha
 proof goal.
 -/
 
+teacher_only in 
 #import_bumps
 
 set_option linter.unusedTactic false

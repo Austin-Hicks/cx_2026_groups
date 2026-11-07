@@ -26,6 +26,7 @@ We have `h3`:$`4y = 8`, from `h2`. We have `h4`:$`3x = 30` from `h1` and `h2`. C
 `h4` gives $`3x - 4y = 22`.
 -/
 
+teacher_only in 
 #import_bumps
 
 set_option linter.unusedTactic false

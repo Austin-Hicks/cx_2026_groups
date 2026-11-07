@@ -21,6 +21,7 @@ Proofs can be laid out as a series of equations, each with a justification or re
 to do this in Lean.
 -/
 
+teacher_only in 
 #import_bumps
 
 set_option linter.unusedTactic false
