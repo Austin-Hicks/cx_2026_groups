@@ -14,5 +14,5 @@ set_option doc.verso.module true
 
 This week introduces abstract groups in Lean. Use the group laws for
 multiplication, the identity, and inverses to prove results that hold in any
-group.
+group. You will prove cancellation and the formula for the inverse of a product.
 -/
