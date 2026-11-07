@@ -22,7 +22,6 @@ set_option doc.verso.suggestions false
 
 set_option linter.unusedTactic false
 
-
 /-!
 
 ## Group properties
@@ -137,6 +136,7 @@ each approach?
 
 example : (y⁻¹ * x⁻¹) * (x * y) = 1 := by
   sorry
+  done
 
 teacher_only in
 example : (y⁻¹ * x⁻¹) * (x * y) = 1 := by
@@ -145,6 +145,7 @@ example : (y⁻¹ * x⁻¹) * (x * y) = 1 := by
   rw [inv_mul_cancel]
   rw [one_mul]
   rw [inv_mul_cancel]
+  done
 
 
 /-!
@@ -162,6 +163,7 @@ lemma inv_inv : x⁻¹⁻¹ = x := by
     _ = sorry := by sorry
     _ = sorry := by sorry
     _ = x := by sorry
+  done
 
 teacher_only in
 example : x⁻¹⁻¹ = x := by
@@ -171,7 +173,9 @@ example : x⁻¹⁻¹ = x := by
     _ = (x⁻¹⁻¹ * x⁻¹) * x := by rw [mul_assoc]
     _ = 1 * x := by rw [inv_mul_cancel]
     _ = x := by rw [one_mul]
+  done
 
+NewTheorem cx_2026.inv_inv
 
 /-!
 ## Exercise 0.4
@@ -185,6 +189,7 @@ lemma mul_inv_cancel : y * y⁻¹ = 1 := by
   calc
     y * y⁻¹ = sorry := by sorry
     _ = 1 := by sorry
+  done
 
 teacher_only in
 
@@ -192,6 +197,7 @@ example : y * y⁻¹ = 1 := by
   calc
     y * y⁻¹ = y⁻¹⁻¹ * y⁻¹ := by rw [inv_inv]
     _ = 1 := by rw [inv_mul_cancel]
+  done
 
 end
 

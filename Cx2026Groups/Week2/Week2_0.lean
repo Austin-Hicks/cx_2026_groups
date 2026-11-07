@@ -71,7 +71,8 @@ example : 1 * x = x := by
 
 ### Multiplicative inverse
 
-The multiplicative inverse axiom, called {name}`inv_mul_cancel` in Mathlib, states `x⁻¹ * x = 1`.
+The multiplicative inverse axiom, states `x⁻¹ * x = 1`. In Mathlib, it is called
+{name}`inv_mul_cancel`.
 
 Type `⁻¹` as `\-1` followed by space.
 -/
@@ -125,7 +126,9 @@ example : (y⁻¹ * x⁻¹) * (x * y) = 1 := by
 /-!
 ## Exercise 0.3
 
-Next, prove that `x⁻¹⁻¹ = x` via a calculation.  Recall you can type `⁻¹` as `\-1`.
+Next, prove that `x⁻¹⁻¹ = x` via a calculation.  Recall you can type `⁻¹` as `\-1`. For this
+exercise, you may find it helpful to use {name}`one_mul`, {name}`mul_assoc`, and
+{name}`inv_mul_cancel`.
 -/
 
 lemma inv_inv : x⁻¹⁻¹ = x := by
@@ -136,6 +139,20 @@ lemma inv_inv : x⁻¹⁻¹ = x := by
     _ = sorry := by sorry
     _ = x := by sorry
 
+NewTheorem cx_2026.inv_inv
+
+/-!
+## Exercise 0.4
+
+You will have noticed that the group axioms in Lean include `x⁻¹ * x = 1`. What about `x * x⁻¹ = 1`?
+It transpires that you can _prove_ this result from the axioms and one of the results you have
+proved in this file.
+-/
+
+lemma mul_inv_cancel : y * y⁻¹ = 1 := by
+  calc
+    y * y⁻¹ = sorry := by sorry
+    _ = 1 := by sorry
 
 end
 

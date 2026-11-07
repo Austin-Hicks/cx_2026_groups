@@ -103,7 +103,8 @@ private def evalCourseProof (rules : Whitelist) (body : Syntax) : TacticM Unit :
     let proof ← instantiateMVars (.mvar goal)
     if proof.hasExprMVar then
       throwError "The course proof still has unresolved metavariables."
-    checkTheorems rules.theorems (rules.tactics.contains "sorry") proof
+    withRef body do
+      checkTheorems rules.theorems (rules.tactics.contains "sorry") proof
 
 /-- Check the written tactics and resulting theorem references against the current whitelist.
 Use `NewTactic` and `NewTheorem` to add entries. Basic equality bookkeeping is allowed implicitly. -/
