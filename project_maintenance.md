@@ -61,7 +61,7 @@ Add new lessons to the Teacher week overview, and import each week in
 `student.released_weeks` in that file. The exporter uses this list for the
 Student files, overview imports, and site configuration. It renames course
 imports to their Student counterparts and reports any dependency from a
-released lesson on an unreleased module. Week 1 is currently released.
+released lesson on an unreleased module.
 
 Generate and check the Student files from the repository root:
 
