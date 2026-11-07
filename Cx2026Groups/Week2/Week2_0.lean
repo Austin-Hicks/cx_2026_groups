@@ -14,20 +14,14 @@ set_option doc.verso.module true
 set_option doc.verso.suggestions false
 
 /-!
-# Abstract Groups
--/
-
-set_option linter.unusedTactic false
-
-
-/-!
-
-## Group properties
+# Group properties
 
 In Mathlib, Lean's mathematical library, `Group` is a kind of mathematical structure. It satisfies
 associativity of multiplication, the left and right identity properties, and the multiplicative
 identity property.
 -/
+
+set_option linter.unusedTactic false
 
 namespace cx_2026
 
@@ -35,7 +29,7 @@ variable {G : Type*} [Group G] (x y z : G)
 
 /-!
 
-### Associativity
+## Associativity
 
 The axiom that {lit}`(a * b) * c = a * (b * c)` is called {name}`mul_assoc` in Mathlib.
 
@@ -51,8 +45,7 @@ example : (x * y) * z = x * (y * z) := by
   rw [mul_assoc x y z]
 
 /-!
-
-### Identity element
+## Identity element
 
 For groups written multiplicatively, the identity element in Lean is denoted `1`. Mathlib presents
 two axioms for multiplication by the identity: {name}`mul_one`, which states `a * 1 = a` and
@@ -69,7 +62,7 @@ example : 1 * x = x := by
 
 /-!
 
-### Multiplicative inverse
+## Multiplicative inverse
 
 The multiplicative inverse axiom, states `x⁻¹ * x = 1`. In Mathlib, it is called
 {name}`inv_mul_cancel`.
@@ -121,6 +114,7 @@ each approach?
 
 example : (y⁻¹ * x⁻¹) * (x * y) = 1 := by
   sorry
+  done
 
 
 /-!
@@ -138,6 +132,7 @@ lemma inv_inv : x⁻¹⁻¹ = x := by
     _ = sorry := by sorry
     _ = sorry := by sorry
     _ = x := by sorry
+  done
 
 NewTheorem cx_2026.inv_inv
 
@@ -153,6 +148,7 @@ lemma mul_inv_cancel : y * y⁻¹ = 1 := by
   calc
     y * y⁻¹ = sorry := by sorry
     _ = 1 := by sorry
+  done
 
 end
 
