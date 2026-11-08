@@ -77,12 +77,12 @@ example (g y : G) : y ∈ g • (H : Set G) ↔ g⁻¹ * y ∈ H := by
   · intro hy
     change ∃ h ∈ H, g * h = y at hy
     rcases hy with ⟨h, hh, heq⟩
-    rw [← heq, undo_left_translation]
+    rw [← heq, inv_mul_cancel_left]
     exact hh
   · intro hy
     change ∃ h ∈ H, g * h = y
     use g⁻¹ * y, hy
-    exact redo_left_translation g y
+    exact mul_inv_cancel_left g y
 
 /-!
 ## Exercise 0.2
@@ -115,13 +115,13 @@ example : Equivalence (fun x y : G => x⁻¹ * y ∈ H) := by
   · intro x y hxy
     change x⁻¹ * y ∈ H at hxy
     have hinv := H.inv_mem hxy
-    rw [inverse_of_product, cx_2026.inv_inv] at hinv
+    rw [mul_inv_rev, cx_2026.inv_inv] at hinv
     exact hinv
   · intro x y z hxy hyz
     change x⁻¹ * y ∈ H at hxy
     change y⁻¹ * z ∈ H at hyz
     have hprod := H.mul_mem hxy hyz
-    rw [mul_assoc, redo_left_translation] at hprod
+    rw [mul_assoc, mul_inv_cancel_left] at hprod
     exact hprod
 
 /-!

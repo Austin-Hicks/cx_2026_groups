@@ -30,7 +30,7 @@ public section
 
 set_option course.checkProofs true
 
-NewTactic exact have
+NewTactic have
 NewTheorem cx_2026.mul_inv_cancel cx_2026.inv_mul_inv_mul_mul_cancel
 
 /-!
@@ -40,14 +40,14 @@ Prove that translation by $`g^{-1}` undoes translation by $`g`. Start by
 regrouping the product, then simplify the inverse pair and the identity.
 -/
 
-lemma undo_left_translation (g x : G) : g⁻¹ * (g * x) = x := by
+lemma inv_mul_cancel_left (g x : G) : g⁻¹ * (g * x) = x := by
   sorry
 
 teacher_only in
 example (g x : G) : g⁻¹ * (g * x) = x := by
   rw [← mul_assoc, inv_mul_cancel, one_mul]
 
-NewTheorem undo_left_translation
+NewTheorem inv_mul_cancel_left
 
 /-!
 ## Exercise 1.2
@@ -56,20 +56,20 @@ Now compose the two translations in the opposite order. Use the right inverse
 identity you proved in Exercise 0.4.
 -/
 
-lemma redo_left_translation (g x : G) : g * (g⁻¹ * x) = x := by
+lemma mul_inv_cancel_left (g x : G) : g * (g⁻¹ * x) = x := by
   sorry
 
 teacher_only in
 example (g x : G) : g * (g⁻¹ * x) = x := by
   rw [← mul_assoc, cx_2026.mul_inv_cancel, one_mul]
 
-NewTheorem redo_left_translation
+NewTheorem mul_inv_cancel_left
 
 /-!
 ## Exercise 1.3
 
 If $`gx=gy`, multiply both sides on the left by $`g^{-1}` and use
-{name}`undo_left_translation`. This proves left cancellation.
+{name}`inv_mul_cancel_left`. This proves left cancellation.
 -/
 
 example (g x y : G) (h : g * x = g * y) : x = y := by
@@ -81,9 +81,9 @@ example (g x y : G) (h : g * x = g * y) : x = y := by
 teacher_only in
 example (g x y : G) (h : g * x = g * y) : x = y := by
   calc
-    x = g⁻¹ * (g * x) := by rw [undo_left_translation]
+    x = g⁻¹ * (g * x) := by rw [inv_mul_cancel_left]
     _ = g⁻¹ * (g * y) := by rw [h]
-    _ = y := by rw [undo_left_translation]
+    _ = y := by rw [inv_mul_cancel_left]
 
 /-!
 ## Exercise 1.4
@@ -93,7 +93,7 @@ $`(y^{-1}x^{-1})(xy)=1`. Multiply that equation on the right by $`(xy)^{-1}`
 and simplify. Notice the order of the factors in the result.
 -/
 
-lemma inverse_of_product (x y : G) : (x * y)⁻¹ = y⁻¹ * x⁻¹ := by
+lemma mul_inv_rev (x y : G) : (x * y)⁻¹ = y⁻¹ * x⁻¹ := by
   calc
     (x * y)⁻¹ = 1 * (x * y)⁻¹ := by sorry
     _ = ((y⁻¹ * x⁻¹) * (x * y)) * (x * y)⁻¹ := by sorry
@@ -106,7 +106,7 @@ example (x y : G) : (x * y)⁻¹ = y⁻¹ * x⁻¹ := by
     _ = ((y⁻¹ * x⁻¹) * (x * y)) * (x * y)⁻¹ := by rw [inv_mul_inv_mul_mul_cancel]
     _ = y⁻¹ * x⁻¹ := by rw [mul_assoc, cx_2026.mul_inv_cancel, mul_one]
 
-NewTheorem inverse_of_product
+NewTheorem mul_inv_rev
 
 end
 

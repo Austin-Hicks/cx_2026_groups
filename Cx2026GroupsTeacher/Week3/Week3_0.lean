@@ -109,7 +109,7 @@ teacher_only in
 example (x y : G) (hx : x ∈ H) (hxy : x * y ∈ H) : y ∈ H := by
   have h : x⁻¹ * (x * y) ∈ H := by
     exact H.mul_mem (H.inv_mem hx) hxy
-  rw [undo_left_translation] at h
+  rw [inv_mul_cancel_left] at h
   exact h
 
 end

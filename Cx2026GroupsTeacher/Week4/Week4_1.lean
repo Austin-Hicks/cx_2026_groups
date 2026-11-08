@@ -60,7 +60,7 @@ teacher_only in
 example (x : H) : translateBack H g (translate H g x) = x := by
   apply Subtype.ext
   change g⁻¹ * (g * x.val) = x.val
-  exact undo_left_translation g x.val
+  exact inv_mul_cancel_left g x.val
 
 example (y : (g • (H : Set G) : Set G)) : translate H g (translateBack H g y) = y := by
   apply Subtype.ext
@@ -70,7 +70,7 @@ teacher_only in
 example (y : (g • (H : Set G) : Set G)) : translate H g (translateBack H g y) = y := by
   apply Subtype.ext
   change g * (g⁻¹ * y.val) = y.val
-  exact redo_left_translation g y.val
+  exact mul_inv_cancel_left g y.val
 
 /-!
 ## Exercise 1.2
