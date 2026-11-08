@@ -234,20 +234,24 @@ private def readLesson (config : ExportConfig) (file : FilePath) (name : Name)
   let headerEdits ← importEdits config ctx header name released
   return { name, ctx, header, parserState, headerEdits }
 
-private def moduleSetups (lessons : Array Lesson) : IO (Array ModuleSetup) := do
-  let (elan?, some lean, some lake) ← Lake.findInstall?
-    | throw <| IO.userError "Could not locate Lean and Lake. Run this exporter with lake exe."
+private def moduleSetups (lessons : Array Lesson) : IO (FilePath × Array ModuleSetup) := do
+  let (elan?, some lean, lake?) ← Lake.findInstall?
+    | throw <| IO.userError "Could not locate Lean. Run the exporter with the project's Lean toolchain on PATH."
+  unless lean.githash == Lean.githash do
+    throw <| IO.userError "The exporter was built with a different Lean toolchain. Run lake build generateStudent."
+  let lake := lake?.getD (Lake.LakeInstall.ofLean lean)
   let lakeEnv ← (Lake.Env.compute lake lean elan?).adapt IO.userError
   let (workspace?, log) ← (Lake.loadWorkspace {
     lakeEnv, wsDir := ← IO.Process.getCurrentDir
   }).captureLog
   let some workspace := workspace?
     | throw <| IO.userError s!"Could not load the Lake workspace.\n{log}"
-  workspace.runBuild (cfg := { out := .stderr, outLv := .error }) do
+  let setups ← workspace.runBuild (cfg := { out := .stderr, outLv := .error }) do
     let jobs ← lessons.mapM fun lesson => do
       let file := lesson.ctx.fileName
       Lake.setupServerModule file.toString (← Lake.resolvePath file) (some lesson.header.toModuleHeader)
     return Lake.Job.collectArray jobs
+  return (lean.sysroot, setups)
 
 private unsafe def commandEdits (lesson : Lesson) (setup : ModuleSetup) : IO (Array Edit) := do
   let { ctx, header, parserState, .. } := lesson
@@ -319,6 +323,16 @@ private structure ArtifactHash where
   modified : IO.FS.SystemTime
   size : UInt64
 
+private def artifactDigest (path : FilePath) (metadata : IO.FS.Metadata) : IO Lake.Hash := do
+  let sidecar := path.addExtension "hash"
+  if let .ok stamp ← sidecar.metadata.toBaseIO then
+    if metadata.modified ≤ stamp.modified then
+      -- Lake has already checked its build inputs. A rebuilt artifact or refreshed
+      -- sidecar changes this fingerprint without reading either file's contents.
+      return Lake.Hash.ofHashable (metadata.modified.sec, metadata.modified.nsec, metadata.byteSize,
+        stamp.modified.sec, stamp.modified.nsec, stamp.byteSize)
+  Lake.computeBinFileHash path
+
 /-- An import resolved outside Lake and the toolchain has no tracked dependency artifacts. -/
 private def canCache (libDir : FilePath) (lesson : Lesson) (setup : ModuleSetup) : IO Bool := do
   (setup.imports?.getD lesson.header.imports).allM fun imp => do
@@ -338,7 +352,7 @@ private def lessonKey (version : Lake.Hash) (lesson : Lesson) (setup : ModuleSet
       | some info => pure info
       | none => do
         let metadata ← path.metadata
-        let digest ← Lake.computeBinFileHash path
+        let digest ← artifactDigest path metadata
         let info : ArtifactHash := { hash := digest, modified := metadata.modified, size := metadata.byteSize }
         hashes.modify (·.insert path info)
         pure info
@@ -398,8 +412,7 @@ unsafe def main (args : List String) : IO Unit := do
     outputs := outputs.push (output, ← projectConfig config source settings released false)
   let lessons ← (files.zip names).filter (fun (_, name) => released.contains name)
     |>.mapM fun (file, name) => readLesson config file name released
-  let setups ← moduleSetups lessons
-  let sysroot ← Lean.findSysroot
+  let (sysroot, setups) ← moduleSetups lessons
   Lean.initSearchPath sysroot
   let libDir ← Lean.getLibDir sysroot
   let executable ← IO.appPath

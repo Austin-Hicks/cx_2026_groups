@@ -72,9 +72,16 @@ lake build
 lake build Cx2026GroupsTeacher
 ```
 
+For repeated exports, build the executable once with `lake build generateStudent`
+and run `.lake/build/bin/generateStudent` from the project root. This skips the
+outer Lake invocation. The executable still asks Lake to check its dependencies.
+Rebuild the executable after changing the exporter or toolchain.
+
 The exporter caches validated lesson edits in `.lake/build/student-export.json`.
 Changes to lesson source, module setup, or compiled imports invalidate the relevant
-entries. `--check` still compares the generated text with the Student files on every run.
+entries. The exporter fingerprints Lake-tracked artifacts by their file stamps
+when their hash sidecars are current. Otherwise it hashes the artifact contents.
+`--check` still compares the generated text with the Student files on every run.
 
 Commit the generated `Cx2026Groups.lean`, `Cx2026Groups/`, and `literate.toml`
 with their authoring changes. CI compares the checked-in files against a fresh
