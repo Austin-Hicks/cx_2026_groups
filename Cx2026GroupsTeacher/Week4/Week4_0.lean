@@ -7,7 +7,7 @@ Authors: Gihan Marasingha
 module
 
 public import Mathlib.GroupTheory.Coset.Basic
-public import Cx2026GroupsTeacher.Week2.Week2_1
+public import Cx2026GroupsTeacher.Week2.Week2_3
 import Mathlib.Tactic.Use
 meta import Cx2026GroupsTools
 meta import Cx2026GroupsAuthoring

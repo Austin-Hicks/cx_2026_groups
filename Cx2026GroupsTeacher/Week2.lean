@@ -6,6 +6,8 @@ Authors: Gihan Marasingha
 
 import Cx2026GroupsTeacher.Week2.Week2_0
 import Cx2026GroupsTeacher.Week2.Week2_1
+import Cx2026GroupsTeacher.Week2.Week2_2
+import Cx2026GroupsTeacher.Week2.Week2_3
 
 set_option doc.verso.module true
 

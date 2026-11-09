@@ -65,6 +65,8 @@ lemma mul_left_cancel (h : z * x = z * y) : x = y := by
     _ = y := by sorry
   done
 
+NewTheorem cx_2026.mul_left_cancel
+
 teacher_only in
 example (h : z * x = z * y) : x = y := by
   calc
@@ -84,6 +86,8 @@ Now prove the corresponding result that if `x * z = y * z`, then `x = y`.
 lemma mul_right_cancel (h : x * z = y * z) : x = y := by
   calc x = sorry := by sorry
   _ = y := sorry
+
+NewTheorem cx_2026.mul_right_cancel
 
 teacher_only in
 example (h : x * z = y * z) : x = y := by

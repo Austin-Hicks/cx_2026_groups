@@ -31,9 +31,6 @@ namespace cx_2026
 
 variable {G : Type*} [Group G] (x y z : G)
 
-teacher_only in
-#print Group
-
 /-!
 
 ## Associativity
@@ -108,6 +105,8 @@ lemma inv_mul_inv_mul_mul_cancel : (y⁻¹ * x⁻¹) * (x * y) = 1 := by
     _ = 1 := by sorry
   done
 
+NewTheorem cx_2026.inv_mul_inv_mul_mul_cancel
+
 teacher_only in
 example : (y⁻¹ * x⁻¹) * (x * y) = 1 := by
   calc
@@ -160,6 +159,8 @@ lemma inv_inv : x⁻¹⁻¹ = x := by
     _ = x := by sorry
   done
 
+NewTheorem cx_2026.inv_inv
+
 teacher_only in
 example : x⁻¹⁻¹ = x := by
   calc
@@ -169,8 +170,6 @@ example : x⁻¹⁻¹ = x := by
     _ = 1 * x := by rw [inv_mul_cancel]
     _ = x := by rw [one_mul]
   done
-
-NewTheorem cx_2026.inv_inv
 
 /-!
 ## Exercise 0.4
@@ -186,8 +185,9 @@ lemma mul_inv_cancel : y * y⁻¹ = 1 := by
     _ = 1 := by sorry
   done
 
-teacher_only in
+NewTheorem cx_2026.mul_inv_cancel
 
+teacher_only in
 example : y * y⁻¹ = 1 := by
   calc
     y * y⁻¹ = y⁻¹⁻¹ * y⁻¹ := by rw [inv_inv]
