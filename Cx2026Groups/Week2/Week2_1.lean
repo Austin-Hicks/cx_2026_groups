@@ -24,16 +24,13 @@ of a coset.
 
 namespace cx_2026
 
-variable {G : Type*} [Group G]
+variable {G : Type*} [Group G] (g x y : G)
 
 public section
 
 set_option course.checkProofs true
 
-NewTactic exact have
-NewTheorem cx_2026.mul_inv_cancel cx_2026.inv_mul_inv_mul_mul_cancel
-
-
+NewTactic have
 
 /-!
 ## Exercise 1.1
@@ -42,10 +39,10 @@ Prove that translation by $`g^{-1}` undoes translation by $`g`. Start by
 regrouping the product, then simplify the inverse pair and the identity.
 -/
 
-lemma undo_left_translation (g x : G) : g⁻¹ * (g * x) = x := by
+lemma inv_mul_cancel_left : g⁻¹ * (g * x) = x := by
   sorry
 
-NewTheorem undo_left_translation
+NewTheorem cx_2026.inv_mul_cancel_left
 
 /-!
 ## Exercise 1.2
@@ -54,19 +51,19 @@ Now compose the two translations in the opposite order. Use the right inverse
 identity you proved in Exercise 0.4.
 -/
 
-lemma mul_inv_cancel_left (g x : G) : g * (g⁻¹ * x) = x := by
+lemma mul_inv_cancel_left : g * (g⁻¹ * x) = x := by
   sorry
 
-NewTheorem mul_inv_cancel_left
+NewTheorem cx_2026.mul_inv_cancel_left
 
 /-!
 ## Exercise 1.3
 
 If $`gx=gy`, multiply both sides on the left by $`g^{-1}` and use
-{name}`undo_left_translation`. This proves left cancellation.
+{name}`inv_mul_cancel_left`. This proves left cancellation.
 -/
 
-example (g x y : G) (h : g * x = g * y) : x = y := by
+example (h : g * x = g * y) : x = y := by
   calc
     x = g⁻¹ * (g * x) := by sorry
     _ = g⁻¹ * (g * y) := by sorry
@@ -80,13 +77,35 @@ $`(y^{-1}x^{-1})(xy)=1`. Multiply that equation on the right by $`(xy)^{-1}`
 and simplify. Notice the order of the factors in the result.
 -/
 
-lemma inverse_of_product (x y : G) : (x * y)⁻¹ = y⁻¹ * x⁻¹ := by
+lemma mul_inv_rev : (x * y)⁻¹ = y⁻¹ * x⁻¹ := by
   calc
     (x * y)⁻¹ = 1 * (x * y)⁻¹ := by sorry
     _ = ((y⁻¹ * x⁻¹) * (x * y)) * (x * y)⁻¹ := by sorry
     _ = y⁻¹ * x⁻¹ := by sorry
 
-NewTheorem inverse_of_product
+NewTheorem cx_2026.mul_inv_rev
+
+/-!
+## Exercise 1.5
+
+Let's prove the right cancelling versions of our previous results.
+-/
+
+lemma mul_inv_cancel_right : (x * g) * g⁻¹ = x := by 
+  calc
+    (x * g) * g⁻¹ = sorry := by sorry
+    _ = x := by sorry
+  done
+
+NewTheorem cx_2026.mul_inv_cancel_right
+
+lemma inv_mul_cancel_right : (x * g⁻¹) * g = x := by
+  calc
+    (x * g⁻¹) * g = sorry := by sorry
+    _ = x  := by sorry
+  done
+
+NewTheorem cx_2026.inv_mul_cancel_right
 
 end
 

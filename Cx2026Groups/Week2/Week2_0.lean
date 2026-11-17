@@ -101,6 +101,8 @@ lemma inv_mul_inv_mul_mul_cancel : (y⁻¹ * x⁻¹) * (x * y) = 1 := by
     _ = 1 := by sorry
   done
 
+NewTheorem cx_2026.inv_mul_inv_mul_mul_cancel
+
 /-!
 ## Exercise 0.2
 
@@ -149,6 +151,8 @@ lemma mul_inv_cancel : y * y⁻¹ = 1 := by
     y * y⁻¹ = sorry := by sorry
     _ = 1 := by sorry
   done
+
+NewTheorem cx_2026.mul_inv_cancel
 
 end
 
